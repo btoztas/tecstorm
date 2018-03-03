@@ -17,11 +17,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.48364648">
       <split-first>
         <leaf>
-          <file leaf-file-name="home.html" pinned="false" current-in-tab="false">
+          <file leaf-file-name="home.html" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/dashboard/templates/home.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="496">
-                  <caret line="45" column="14" lean-forward="true" selection-start-line="45" selection-start-column="14" selection-end-line="45" selection-end-column="14" />
+                <state relative-caret-position="538">
+                  <caret line="50" column="4" lean-forward="false" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
                   <folding>
                     <element signature="e#357#388#0#HTML" expanded="true" />
                     <element signature="e#902#933#0#HTML" expanded="true" />
@@ -30,13 +30,42 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="sb-admin-charts.js" pinned="false" current-in-tab="true">
+          <file leaf-file-name="sb-admin-charts.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/dashboard/static/js/sb-admin-charts.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="75">
-                  <caret line="5" column="46" lean-forward="false" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
+                <state relative-caret-position="420">
+                  <caret line="28" column="15" lean-forward="true" selection-start-line="28" selection-start-column="15" selection-end-line="28" selection-end-column="15" />
                   <folding>
                     <element signature="n#!!doc" expanded="true" />
+                    <marker date="1520103977345" expanded="true" signature="406:1529" ph="{&quot;type&quot;: 'line'...}" />
+                    <marker date="1520103977345" expanded="true" signature="432:448" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="1353:1393" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="1353:1473" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="1353:1474" ph="[...]" />
+                    <marker date="1520103977345" expanded="true" signature="1353:1481" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="1353:1527" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="1414:1465" ph="{&quot;color&quot;: &quot;rgba(0, 0, 0, .125)&quot;...}" />
+                    <marker date="1520103977345" expanded="true" signature="1495:1523" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="1638:2368" ph="{&quot;type&quot;: 'bar'...}" />
+                    <marker date="1520103977345" expanded="true" signature="1663:1922" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="1749:1917" ph="[...]" />
+                    <marker date="1520103977345" expanded="true" signature="1750:1916" ph="{&quot;label&quot;: &quot;Revenue&quot;...}" />
+                    <marker date="1520103977345" expanded="true" signature="1935:2366" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="1949:2320" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="1964:2137" ph="[...]" />
+                    <marker date="1520103977345" expanded="true" signature="1965:2136" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="1981:2016" ph="{&quot;unit&quot;: 'month'...}" />
+                    <marker date="1520103977345" expanded="true" signature="2037:2073" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="2090:2128" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="2152:2313" ph="[...]" />
+                    <marker date="1520103977345" expanded="true" signature="2153:2312" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="2170:2248" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="2269:2304" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="2334:2362" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="2476:2692" ph="{&quot;type&quot;: 'pie'...}" />
+                    <marker date="1520103977345" expanded="true" signature="2501:2689" ph="{...}" />
+                    <marker date="1520103977345" expanded="true" signature="2565:2684" ph="[...]" />
+                    <marker date="1520103977345" expanded="true" signature="2566:2683" ph="{...}" />
                   </folding>
                 </state>
               </provider>
@@ -238,6 +267,7 @@
         <option value="$PROJECT_DIR$/pluckers/settings.py" />
         <option value="$PROJECT_DIR$/.ebextensions/django.config" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/dashboard/static/js/sb-admin-charts.js" />
         <option value="$PROJECT_DIR$/dashboard/templates/home.html" />
       </list>
     </option>
@@ -890,23 +920,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dashboard/templates/home.html">
+    <entry file="file://$PROJECT_DIR$/dashboard/static/js/sb-admin-charts.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="45" column="14" lean-forward="true" selection-start-line="45" selection-start-column="14" selection-end-line="45" selection-end-column="14" />
+        <state relative-caret-position="420">
+          <caret line="28" column="15" lean-forward="true" selection-start-line="28" selection-start-column="15" selection-end-line="28" selection-end-column="15" />
           <folding>
-            <element signature="e#357#388#0#HTML" expanded="true" />
-            <element signature="e#902#933#0#HTML" expanded="true" />
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1520103977345" expanded="true" signature="406:1529" ph="{&quot;type&quot;: 'line'...}" />
+            <marker date="1520103977345" expanded="true" signature="432:448" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="1353:1393" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="1353:1473" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="1353:1474" ph="[...]" />
+            <marker date="1520103977345" expanded="true" signature="1353:1481" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="1353:1527" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="1414:1465" ph="{&quot;color&quot;: &quot;rgba(0, 0, 0, .125)&quot;...}" />
+            <marker date="1520103977345" expanded="true" signature="1495:1523" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="1638:2368" ph="{&quot;type&quot;: 'bar'...}" />
+            <marker date="1520103977345" expanded="true" signature="1663:1922" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="1749:1917" ph="[...]" />
+            <marker date="1520103977345" expanded="true" signature="1750:1916" ph="{&quot;label&quot;: &quot;Revenue&quot;...}" />
+            <marker date="1520103977345" expanded="true" signature="1935:2366" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="1949:2320" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="1964:2137" ph="[...]" />
+            <marker date="1520103977345" expanded="true" signature="1965:2136" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="1981:2016" ph="{&quot;unit&quot;: 'month'...}" />
+            <marker date="1520103977345" expanded="true" signature="2037:2073" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="2090:2128" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="2152:2313" ph="[...]" />
+            <marker date="1520103977345" expanded="true" signature="2153:2312" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="2170:2248" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="2269:2304" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="2334:2362" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="2476:2692" ph="{&quot;type&quot;: 'pie'...}" />
+            <marker date="1520103977345" expanded="true" signature="2501:2689" ph="{...}" />
+            <marker date="1520103977345" expanded="true" signature="2565:2684" ph="[...]" />
+            <marker date="1520103977345" expanded="true" signature="2566:2683" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dashboard/static/js/sb-admin-charts.js">
+    <entry file="file://$PROJECT_DIR$/dashboard/templates/home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="46" lean-forward="false" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
+        <state relative-caret-position="538">
+          <caret line="50" column="4" lean-forward="false" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#357#388#0#HTML" expanded="true" />
+            <element signature="e#902#933#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>

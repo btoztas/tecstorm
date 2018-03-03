@@ -7,8 +7,9 @@ from django.utils import timezone
 # Create your models here.
 
 class UserTag(models.Model):
-    user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     tag = models.CharField(max_length=50, null=True, blank=True)
+    name = models.CharField(max_length=50, null=True, blank=True)
 
 
 class Pluckers(models.Model):

@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from dashboard.forms import NewPluckersForm
+from dashboard.forms import NewPluckersForm, NewTagForm
 from dashboard.models import Pluckers, Consume, Session, UserTag
 
 
@@ -82,8 +82,32 @@ class DeviceView(View):
         return render(request, self.template_name, context)
 
 
-class SessionApiView(View):
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
+class TagsView(View):
+    template_name = 'tags.html'
 
+    def post(self, request, *args, **kwargs):
+
+        form = NewTagForm(request.POST)
+
+        if form.is_valid():
+            uuid = form.cleaned_data['uuid']
+            name = form.cleaned_data['name']
+
+            new_tag = UserTag(tag=uuid, user=request.user, name=name)
+            new_tag.save()
+
+            return HttpResponseRedirect('/tags')
+
+    def get(self, request, *args, **kwargs):
+        context = get_context(request)
+
+        context['tags'] = UserTag.objects.filter(user=request.user).all()
+
+        return render(request, self.template_name, context)
+
+
+class SessionApiView(View):
     def post(self, request, *args, **kwargs):
 
         body = json.loads(request.body)

@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import views as auth_views
-from dashboard.views import HomeView, DevicesView, NewDeviceView, DeviceView
+from dashboard.views import HomeView, DevicesView, NewDeviceView, DeviceView, SessionApiView
 
 urlpatterns = [
 
@@ -15,9 +15,9 @@ urlpatterns = [
     # DEVICES
     url(r'^devices/$', DevicesView.as_view()),
     url(r'^devices/new/$', NewDeviceView.as_view()),
-    url(r'^devices/(?P<uuid>.*)/$', DeviceView.as_view()),
+    url(r'^devices/(?P<pluckers>.*)/$', DeviceView.as_view()),
 
     # SESSION API
-    url(r'^session/(?P<pluckers>.*)/$', DeviceView.as_view()),
+    url(r'^api/session/(?P<pluckers>.*)/$', csrf_exempt(SessionApiView.as_view())),
 
 ]

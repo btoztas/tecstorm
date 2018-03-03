@@ -7,7 +7,7 @@ from django.utils import timezone
 # Create your models here.
 
 class UserTag(models.Model):
-    user = models.ForeignKey(User, unique=True)
+    user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
     tag = models.CharField(max_length=50, null=True, blank=True)
 
 

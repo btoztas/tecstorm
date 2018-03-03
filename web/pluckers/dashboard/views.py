@@ -91,7 +91,7 @@ class SessionApiView(View):
         if 'tag' in body and 'pluckers' in kwargs:
 
             tag = body['tag']
-            pluckers_uuid = body['pluckers']
+            pluckers_uuid = kwargs['pluckers']
 
             try:
                 user_tag = UserTag.objects.get(tag=tag)

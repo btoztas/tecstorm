@@ -1,28 +1,29 @@
 #include <SPI.h>
 #include <MFRC522.h>
 #include <WiFi.h>
+#include <HTTPClient.h>
 
 #define RST_PIN 22 // Reset pin
 #define SS_PIN 21 // Slave select pin
 #define RELAY_PIN 4// Relay pin to control the plug
 
-char* ssid = "OnePlus2";
-char* password =  "candeias";
+char* ssid = "Redmi";
+char* password =  "9ecd440f1d8f";
+String pluckerID = "pluckers01";
+String TagID;
 
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Instance of the class
 
 /*We have 7 sates: 0 iddle wait for input card
-                   1 send data to server
-                   2 wait server response
-                   3 unlock relay and save card number
-                   4 send data of consumption to server
-                   5 verify card state
-                   6 end- clear variables*/
+                   1 send data to server of card and validate it
+                   2 unlock relay and save card number
+                   3 send data of consumption to server
+                   4 verify card state
+                   5 end- clear variables*/
 int stateNode = 0;
 
 //variables used
 String content;
-
 
 //in state 0 the machine is in iddle and waits for the card
 void iddle(){
@@ -45,12 +46,47 @@ void iddle(){
   }
 }
 
-void sendServerData(){
+bool authenticationPost(){
+  if(WiFi.status() == WL_CONNECTED){
+    //HTTP client
+    HTTPClient http;
+    http.begin("http://193.136.128.103:5005/api/session/"+pluckerID+"/"); //Specify destination for HTTP request
+    http.addHeader("Content-Type", "application/json"); //Specify content-type header
+    int httpResponseCode = http.POST("{\"tag\":\"" + content + "\"}"); //Send the actual POST request
 
+    if(httpResponseCode > 0){
+      String response = http.getString();                       //Get the response to the request
+
+      Serial.println("POST Response:");   //Print return code
+      Serial.println(response);           //Print request answer
+
+      if(httpResponseCode == 200){
+        //This means it's a valid ID
+        Serial.println("Valid ID");
+        stateNode = 2;
+      }else{
+        Serial.println("Invalid ID");
+        stateNode = 0;//Return to IDLE
+      }
+
+    }else{
+ 
+      Serial.print("Error on sending POST: ");
+      Serial.println(httpResponseCode);
+ 
+    }    
+   http.end();  //Free resources
+  }else{
+    Serial.println("NO WIFI");
+  }
 }
+
+
 
 void end(){
   Serial.println("END STATE");
+  tagId = "";
+  stateNode = 0;
 }
 
 //RELAY CODE
@@ -60,6 +96,8 @@ void lockRelay(){
 void unlockRelay(){
   digitalWrite(RELAY_PIN,HIGH);
 }
+
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -89,11 +127,18 @@ void loop() {
       iddle();
       break; /* optional */
 	
-    case 1:
-      Serial.println(content);
-      stateNode = 0;
+    case 1://send data to autentication
+      authenticationPost();
       break; /* optional */
-  
+    
+    case 2://unlock relay and save the id of the tag 
+      unlockRelay();
+      tagId = content;
+      stateNode = 3;
+      break;
+    case 3://send data and goes to the verify data
+
+
     default : /* by default an error occurred so it ends and clear all */
       end();
   }

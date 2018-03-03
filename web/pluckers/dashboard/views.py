@@ -108,8 +108,24 @@ class SessionApiView(View):
                     status=404
                 )
 
-            new_session = Session(user=user, pluckers=pluckers, active=True)
-            new_session.save()
+            # Check if there is an active session
+
+            active_session = Session.objects.filter(active=True, user=user, pluckers=pluckers).first()
+
+            if active_session:
+
+                # End session
+                active_session.active = False
+
+                # Calculate the power and price
+                active_session.power = 10
+                active_session.price = 10
+                active_session.save()
+
+            else:
+
+                new_session = Session(user=user, pluckers=pluckers, active=True)
+                new_session.save()
 
             return HttpResponse(
                 status=200,

@@ -38,6 +38,9 @@ class Session(models.Model):
     def save(self, *args, **kwargs):
         if not self.started_at:
             self.started_at = timezone.now()
+        else:
+            self.ended_at = timezone.now()
+
         return super(Session, self).save(*args, **kwargs)
 
 

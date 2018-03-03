@@ -143,7 +143,4 @@ if 'ON_AWS' in os.environ:
 else:
     SITE_URL = 'http://127.0.0.1:8000'
 
-ALLOWED_HOSTS = [
-    'pluckers.bxwygispqb.eu-west-1.elasticbeanstalk.com',
-    '127.0.0.1',
-]
+ALLOWED_HOSTS = ['*']

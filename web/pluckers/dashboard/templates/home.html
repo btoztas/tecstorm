@@ -1,0 +1,39 @@
+{% extends 'blank.html' %}
+{% block body %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Pluckers</li>
+    </ol>
+
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-search-plus"></i> Pluckers
+        </div>
+
+        {% if is_admin %}
+            <div class="card-body">
+                <div style="padding-bottom: inherit">
+                    Welcome to Pluckers platform. Here you can check your consumes, billing and more!
+                </div>
+                <a href="/devices/">
+                    <button class="btn btn-primary" type="button">My Devices</button>
+                </a>
+                <a href="/consumes/">
+                    <button class="btn btn-primary" type="button">User Consumes</button>
+                </a>
+            </div>
+        {% else %}
+            <div class="card-body">
+                <div style="padding-bottom: inherit">
+                    Welcome to Pluckers platform. Here you can check your consumes, billing and more!
+                </div>
+                <a href="/consumes/">
+                    <button class="btn btn-primary" type="button">Consumes</button>
+                </a>
+                <a href="/billing/">
+                    <button class="btn btn-primary" type="button">Billing</button>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

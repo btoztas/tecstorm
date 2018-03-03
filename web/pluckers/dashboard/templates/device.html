@@ -1,0 +1,166 @@
+{% extends 'blank.html' %}
+{% block body %}
+
+    <ol class="breadcrumb">
+
+        <li class="breadcrumb-item"><a href="/">Pluckers</a></li>
+        <li class="breadcrumb-item"><a href="/devices">Devices</a></li>
+        <li class="breadcrumb-item active">{{ pluckers.uuid }}</li>
+    </ol>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-info-circle"></i> Pluckers Info
+        </div>
+        <div class="card-body">
+            This Pluckers has been used {{ session | length }} times.
+            <br>
+            <br>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <tbody>
+                    <tr>
+                        <th>
+                            Identifier
+                        </th>
+                        <td>
+                            {{ pluckers.uuid }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <td>
+                            {{ pluckers.name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Location
+                        </th>
+                        <td>
+                            {{ pluckers.location }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Added at
+                        </th>
+                        <td>
+                            {{ pluckers.created_at }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <table>
+                <tbody>
+                <tr width="100%">
+                    <td width="99%">
+                        <i class="fa fa-info-circle"></i> Active Session
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-body ">
+            {% if active_session %}
+                <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <tbody>
+
+                    <!-- Colocar aqui gráficos de consumo -->
+
+                    </tbody>
+                </table>
+
+            {% else %}
+                There is no active session.
+            {% endif %}
+        </div>
+
+    </div>
+    </div>
+
+
+
+    {% for session in sessions %}
+        <div class="card mb-3">
+            <div class="card-header">
+                <table>
+                    <tbody>
+                    <tr width="100%">
+                        <td width="99%">
+                            <i class="fa fa-info-circle"></i> Session {{ session.pk}} | {{ session.started_at }} - {{ session.ended_at }}
+                        </td>
+                        <td width="10%">
+                            <a data-toggle="collapse" href="#{{ plug.number }}">
+                                <button class="btn btn-secondary" type="button">Expand</button>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-body ">
+                <div class="table-responsive panel-collapse collapse" id="{{ plug.number }}">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <tbody>
+                        <tr>
+                            <th>
+                                User
+                            </th>
+                            <td>
+                                {{ session.user.username }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Consumed Power
+                            </th>
+                            <td>
+                                {{ session.power }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Price
+                            </th>
+                            <td>
+                                {{ session.price }} €
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Started at
+                            </th>
+                            <td>
+                                {{ session.started_at }} €
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Ended at
+                            </th>
+                            <td>
+                                {{ session.started_at }} €
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+
+
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'blank.html' %}
+{% block body %}
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Pluckers</a></li>
+        <li class="breadcrumb-item active">Devices</li>
+    </ol>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-search-plus"></i> Manage Devices
+        </div>
+        <div class="card-body">
+            <div style="padding-bottom: inherit">
+                You have a total of {{ list|length }} Pluckers registered.
+            </div>
+            <a href="/devices/new">
+                <button class="btn btn-primary" type="button">New Pluckers</button>
+            </a>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-list"></i> Registered Devices
+        </div>
+        <div class="card-body">
+            {% if list %}
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <tbody>
+                        {% for pluckers in list %}
+                            <tr>
+                                <td width="40%">{{ pluckers.uuid }}</td>
+                                <td width="40%">{{ pluckers.name }}</td>
+                                <td width="10%">
+                                    <a href="/devices/{{ pluckers.uuid }}">
+                                        <button class="btn btn-primary" type="button">View</button>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            {% else %}
+                There are no Pluckers registered.
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

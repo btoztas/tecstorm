@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:\\Users\\cande\\OneDrive\\Documentos\\Arduino\\hardware\\espressif\\esp32\\cores\\esp32",
+                "C:\\Users\\cande\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.4.0\\cores\\esp8266"
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": false,
+                "path": [
+                    "C:\\Users\\cande\\OneDrive\\Documentos\\Arduino\\hardware\\espressif\\esp32\\cores\\esp32",
+                    "C:\\Users\\cande\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.4.0\\cores\\esp8266"
+                ]
+            },
+            "intelliSenseMode": "msvc-x64"
+        }
+    ],
+    "version": 3
+}

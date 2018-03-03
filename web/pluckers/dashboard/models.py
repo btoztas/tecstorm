@@ -8,7 +8,7 @@ from django.utils import timezone
 
 class UserTag(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    tag = models.CharField(max_length=50, null=True, blank=True)
+    tag = models.CharField(max_length=50, unique=True, null=True, blank=True)
     name = models.CharField(max_length=50, null=True, blank=True)
 
 
@@ -30,6 +30,7 @@ class Pluckers(models.Model):
 class Session(models.Model):
     pluckers = models.ForeignKey(Pluckers, on_delete=models.CASCADE, related_name='pluckers_used')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='used_by')
+    user_tag = models.ForeignKey(UserTag, on_delete=models.CASCADE, related_name='used_by')
     active = models.BooleanField()
     power = models.IntegerField(null=True, blank=True)
     price = models.IntegerField(null=True, blank=True)

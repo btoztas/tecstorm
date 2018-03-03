@@ -83,6 +83,19 @@ class DeviceView(View):
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
+class SessionsView(View):
+    template_name = 'sessions.html'
+
+    def get(self, request, *args, **kwargs):
+        context = get_context(request)
+
+        context['active_sessions'] = Session.objects.filter(user=request.user, active=True).all()
+        context['sessions'] = Session.objects.filter(user=request.user, active=False).all()
+
+        return render(request, self.template_name, context)
+
+
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
 class TagsView(View):
     template_name = 'tags.html'
 
@@ -120,7 +133,7 @@ class SessionApiView(View):
             try:
                 user_tag = UserTag.objects.get(tag=tag)
                 user = user_tag.user
-                pluckers = Pluckers.objects.filter(uuid=pluckers_uuid)
+                pluckers = Pluckers.objects.filter(uuid=pluckers_uuid).first()
 
             except (UserTag.DoesNotExist, ValueError):
 
@@ -134,7 +147,7 @@ class SessionApiView(View):
 
             # Check if there is an active session
 
-            active_session = Session.objects.filter(active=True, user=user, pluckers=pluckers).first()
+            active_session = Session.objects.filter(active=True, user=user, user_tag=user_tag, pluckers=pluckers).first()
 
             if active_session:
 
@@ -148,7 +161,7 @@ class SessionApiView(View):
 
             else:
 
-                new_session = Session(user=user, pluckers=pluckers, active=True)
+                new_session = Session(user=user, user_tag=user_tag, pluckers=pluckers, active=True)
                 new_session.save()
 
             return HttpResponse(

@@ -4,75 +4,34 @@
     <ol class="breadcrumb">
 
         <li class="breadcrumb-item"><a href="/">Pluckers</a></li>
-        <li class="breadcrumb-item"><a href="/devices">Devices</a></li>
-        <li class="breadcrumb-item active">{{ pluckers.uuid }}</li>
+        <li class="breadcrumb-item active">Sessions</li>
     </ol>
 
     <div class="card mb-3">
         <div class="card-header">
-            <i class="fa fa-info-circle"></i> Pluckers Info
+            <i class="fa fa-info-circle"></i> Sessions Info
         </div>
         <div class="card-body">
-            This Pluckers has been used {{ session | length }} times.
-            <br>
-            <br>
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            You have {{ sessions | length }} registered sessions.
+        </div>
+    </div>
+
+    {% for session in active_sessions %}
+        <div class="card mb-3">
+            <div class="card-header">
+                <table>
                     <tbody>
-                    <tr>
-                        <th>
-                            Identifier
-                        </th>
-                        <td>
-                            {{ pluckers.uuid }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            Name
-                        </th>
-                        <td>
-                            {{ pluckers.name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            Location
-                        </th>
-                        <td>
-                            {{ pluckers.location }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            Added at
-                        </th>
-                        <td>
-                            {{ pluckers.created_at }}
+                    <tr width="100%">
+                        <td width="99%">
+                            <i class="fa fa-info-circle"></i> Active Session - Tag {{ session.user_tag }}
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
-    </div>
-
-
-    <div class="card mb-3">
-        <div class="card-header">
-            <table>
-                <tbody>
-                <tr width="100%">
-                    <td width="99%">
-                        <i class="fa fa-info-circle"></i> Active Session
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="card-body ">
-            {% if active_session %}
-                <div class="table-responsive">
+            <div class="card-body ">
+                {% if active_session %}
+                    <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <tbody>
 
@@ -80,14 +39,15 @@
 
                         </tbody>
                     </table>
+
+                {% else %}
+                    There is no active session.
+                {% endif %}
                 </div>
-            {% else %}
-                There is no active session.
-            {% endif %}
 
-
+            </div>
         </div>
-    </div>
+    {% endfor %}
 
 
 
@@ -160,6 +120,7 @@
             </div>
         </div>
     {% endfor %}
+
 
 
 

@@ -2,7 +2,6 @@
 import json
 
 from django.contrib.auth.decorators import login_required
-from django.core.serializers import serialize
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
@@ -177,34 +176,45 @@ class SessionApiView(View):
             status=400
         )
 
-#
-# class PluckersApiView(View):
-#
-#     def get(self, request, *args, **kwargs):
-#
-#         # Check if uuid is present in URL path (/api/pluckers/<uuid>)
-#         if 'uuid' in kwargs:
-#             uuid = kwargs['uuid']
-#
-#             try:
-#                 pluckers = Pluckers.objects.filter(uuid=uuid).first()
-#                 plugs = Plug.objects.filter(pluckers=pluckers)
-#
-#             except (Pluckers.DoesNotExist, ValueError):
-#                 response = dict()
-#                 response['error'] = 'resource not found'
-#                 return HttpResponse(
-#                     response,
-#                     content_type='application/json',
-#                     status=404
-#                 )
-#
-#             response = dict()
-#             response['pluckers'] = serialize("json", pluckers)
-#             response['plugs'] = serialize("json", plugs)
-#
-#             return HttpResponse(
-#                 json.dumps(response),
-#                 content_type='application/json',
-#                 status=200
-#             )
+class ConsumeApiView(View):
+
+    def post(self, request, *args, **kwargs):
+
+        body = json.loads(request.body)
+
+        if 'value' in body and 'pluckers' in kwargs:
+
+            value = body['value']
+            pluckers_uuid = kwargs['pluckers']
+
+            try:
+                pluckers = Pluckers.objects.filter(uuid=pluckers_uuid).first()
+                session = Session.objects.filter(active=True, pluckers=pluckers).first()
+
+            except (UserTag.DoesNotExist, ValueError):
+
+                response = dict()
+                response['error'] = 'tag not found'
+                return HttpResponse(
+                    json.dumps(response),
+                    content_type='application/json',
+                    status=404
+                )
+
+            # Check if there is an active session
+
+            new_consume = Consume(value=value, session=session)
+            new_consume.save()
+
+            return HttpResponse(
+                status=200,
+                content_type='application/json',
+            )
+
+        response = dict()
+        response['error'] = 'bad request'
+        return HttpResponse(
+            json.dumps(response),
+            content_type='application/json',
+            status=400
+        )

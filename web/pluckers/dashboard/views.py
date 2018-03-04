@@ -157,8 +157,6 @@ class SessionApiView(View):
                 active_session.power = 10
                 active_session.price = 10
                 active_session.save()
-                pluckers.state = False
-                pluckers.save()
 
             else:
 

@@ -1,0 +1,59 @@
+{% extends 'blank.html' %}
+{% block body %}
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Pluckers</a></li>
+        <li class="breadcrumb-item active">Tags</li>
+    </ol>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-search-plus"></i> Add Tag
+        </div>
+        <div class="card-body">
+            <div style="padding-bottom: inherit">
+                <form method="post">
+                    <div class="form-group">
+                        {% csrf_token %}
+                        <label for="uuid">Tag UUID</label>
+                        <br>
+                        <input class="form-control" placeholder="Tag unique identifier" id="uuid" type="text"
+                               name="uuid" maxlength="20" required/>
+                        <br>
+                        <label for="name">Name</label>
+                        <br>
+                        <input class="form-control" placeholder="Tag name" id="name" type="text"
+                               name="name" maxlength="50" required/>
+                    </div>
+                    <button class="btn btn-primary btn-block" type="submit">Add tag</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-list"></i> Registered Tags
+        </div>
+        <div class="card-body">
+            {% if tags %}
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <tbody>
+                        {% for tag in tags %}
+                            <tr>
+                                <td width="20%">{{ tag.name }}</td>
+                                <td>{{ tag.tag }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            {% else %}
+                There are no tags registered.
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

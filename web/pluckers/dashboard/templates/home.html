@@ -1,0 +1,53 @@
+{% extends 'blank.html' %}
+{% block body %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Pluckers</li>
+    </ol>
+
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-search-plus"></i> Pluckers
+        </div>
+
+        {% if is_admin %}
+            <div class="card-body">
+                <div style="padding-bottom: inherit">
+                    Welcome to Pluckers platform. Here you can check your consumes, billing and more!
+                </div>
+                <a href="/devices/">
+                    <button class="btn btn-primary" type="button">My Devices</button>
+                </a>
+                <a href="/sessions/">
+                    <button class="btn btn-primary" type="button">User Sessions</button>
+                </a>
+            </div>
+        {% else %}
+            <div class="card-body">
+                <div style="padding-bottom: inherit">
+                    Welcome to Pluckers platform. Here you can check your consumes, billing and more!
+                </div>
+                <a href="/tags/">
+                    <button class="btn btn-primary" type="button">Tags</button>
+                </a>
+                <a href="/sessions/">
+                    <button class="btn btn-primary" type="button">Sessions</button>
+                </a>
+                <a href="/billing/">
+                    <button class="btn btn-primary" type="button">Billing</button>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-area-chart"></i>Consumes on my devices (kWh)
+        </div>
+        <div class="card-body">
+            <canvas id="myAreaChart" width="100%" height="30"></canvas>
+        </div>
+    </div>
+
+{% endblock %}

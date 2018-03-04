@@ -1,0 +1,34 @@
+{% extends 'blank.html' %}
+{% block body %}
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Pluckers</a></li>
+        <li class="breadcrumb-item active">Devices</li>
+    </ol>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-plus-circle"></i> Add Puckers
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="form-group">
+                    {% csrf_token %}
+                    <label for="uuid">Pluckers UUID</label>
+                    <br>
+                    <input class="form-control"  placeholder="Pluckers unique identifier" id="uuid" type="text" name="uuid" maxlength="20" required/>
+                    <br>
+                    <label for="name">Name</label>
+                    <br>
+                    <input class="form-control" id="name" placeholder="Give this Pluckers a name" type="text" name="name" maxlength="50" required/>
+                    <br>
+                    <label for="location">Location</label>
+                    <br>
+                    <input class="form-control" id="location" placeholder="Pluckers location" type="text" name="location" maxlength="50" required/>
+                </div>
+                <button class="btn btn-primary btn-block" type="submit">New Pluckers</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

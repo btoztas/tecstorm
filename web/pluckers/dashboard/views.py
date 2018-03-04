@@ -157,11 +157,15 @@ class SessionApiView(View):
                 active_session.power = 10
                 active_session.price = 10
                 active_session.save()
+                pluckers.state = False
+                pluckers.save()
 
             else:
 
                 new_session = Session(user=user, user_tag=user_tag, pluckers=pluckers, active=True)
                 new_session.save()
+                pluckers.state = True
+                pluckers.save()
 
             return HttpResponse(
                 status=200,

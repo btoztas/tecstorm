@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import views as auth_views
 from dashboard.views import HomeView, DevicesView, NewDeviceView, DeviceView, SessionApiView, TagsView, SessionsView, \
-    ConsumeApiView
+    ConsumeApiView, StateApiView, ChangeStateApiView
 
 urlpatterns = [
 
@@ -22,6 +22,9 @@ urlpatterns = [
     # CONSUME
     url(r'^api/consume/(?P<pluckers>.*)/$', csrf_exempt(ConsumeApiView.as_view())),
 
+    # STATE
+    url(r'^api/state/(?P<pluckers>.*)/$', csrf_exempt(StateApiView.as_view())),
+
     # DEVICES
     url(r'^devices/$', DevicesView.as_view()),
     url(r'^devices/new/$', NewDeviceView.as_view()),
@@ -29,5 +32,8 @@ urlpatterns = [
 
     # SESSION API
     url(r'^api/session/(?P<pluckers>.*)/$', csrf_exempt(SessionApiView.as_view())),
+
+    # TURN ON/OFF
+    url(r'^api/devices/state/(?P<pluckers>.*)/$', csrf_exempt(ChangeStateApiView.as_view())),
 
 ]

@@ -218,3 +218,46 @@ class ConsumeApiView(View):
             content_type='application/json',
             status=400
         )
+
+class StateApiView(View):
+
+    def get(self, request, *args, **kwargs):
+
+        if 'pluckers' in kwargs:
+
+            uuid = kwargs['pluckers']
+
+            pluckers = Pluckers.objects.filter(uuid=uuid).first()
+
+            response = dict()
+            response['state'] = pluckers.state
+
+            return HttpResponse(
+                json.dumps(response),
+                content_type='application/json',
+                status=200
+            )
+
+        response = dict()
+        response['error'] = 'bad request'
+        return HttpResponse(
+            json.dumps(response),
+            content_type='application/json',
+            status=400
+        )
+
+class ChangeStateApiView(View):
+
+    def get(self, request, *args, **kwargs):
+
+        if 'pluckers' in kwargs:
+
+            uuid = kwargs['pluckers']
+
+            pluckers = Pluckers.objects.filter(uuid=uuid).first()
+
+            pluckers.state = not pluckers.state
+            pluckers.save()
+
+            return HttpResponseRedirect('/devices/' + uuid)
+

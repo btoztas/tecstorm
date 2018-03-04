@@ -14,6 +14,7 @@ class UserTag(models.Model):
 
 class Pluckers(models.Model):
     uuid = models.CharField(max_length=10, primary_key=True)
+    state = models.BooleanField(default=False)
     user = models.ForeignKey(User)
     name = models.CharField(max_length=50)
     location = models.CharField(max_length=100)

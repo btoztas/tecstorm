@@ -2,6 +2,8 @@
 #include <MFRC522.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include <ArduinoJson.h>
+
 
 #define RST_PIN 22 // Reset pin
 #define SS_PIN 21 // Slave select pin
@@ -11,10 +13,11 @@
 char* ssid = "MIBAR";
 char* password =  "mibar2018";
 const String pluckerID = "pluckers01";
-const String apiEndpoint = "http://193.136.128.109:5006/api/";
+const String apiEndpoint = "http://193.136.128.108:5005/api/";
 
 String content;
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Instance of the class
+
 
 /*We have 7 sates: 0 iddle wait for input card
                    1 send data to server of card and validate it
@@ -26,6 +29,9 @@ int stateNode = 0;
 String tagId;//variable that saves the current pluged device ID
 unsigned long int powerConsumed = 0;
 int actualCurrent = 1;
+int i = 0;
+unsigned lastTime;//variable for check the lastTime we seee the card - this detects if plug not present
+
 
 //in state 0 the machine is in iddle and waits for the card
 void iddle(){
@@ -117,15 +123,46 @@ void sendData(){
   }
 }
 
+void pingRelay(){
+  HTTPClient http;
+
+  http.begin(apiEndpoint + "state/" + pluckerID + "/");
+  int httpCode = http.GET();
+
+  if (httpCode > 0) { //Check for the returning code
+ 
+    String payload = http.getString();
+    StaticJsonBuffer<300> JSONBuffer;                         //Memory pool
+    JsonObject& parsed = JSONBuffer.parseObject(payload); //Parse message
+    bool state = parsed["state"];
+
+    Serial.print("STATE: ");
+    Serial.println(state);
+   // Serial.println(parsed["state"]);
+
+    if(state){
+    
+    }else{
+      stateNode = 5;
+    }
+
+  }else{
+      Serial.println("Error on HTTP request");
+  }
+
+
+}
+
 //function handles end state
 void end(){
   Serial.println("END STATE");
+  authenticationPost(tagId);//first time called it opens session second time it closes it
+  lockRelay();
   tagId = "";
   stateNode = 0;
   content = "";
   powerConsumed = 0;
-  lockRelay();
-  authenticationPost(tagId);//first time called it opens session second time it closes it
+  i=0;
 }
 
 //RELAY CODE
@@ -158,8 +195,7 @@ void setup() {
   digitalWrite(RELAY_PIN,LOW);
 }
 
-int i = 0;
-unsigned lastTime;//variable for check the lastTime we seee the card - this detects if plug not present
+
 void loop() {
   // put your main code here, to run repeatedly:
   switch(stateNode) {
@@ -173,10 +209,15 @@ void loop() {
       break; /* optional */
     
     case 2://unlock relay and save the id of the tag 
+      stateNode = 3;
+      pingRelay();
+      if(stateNode==5){
+        end();
+        break;
+      }
       Serial.println("unlockRelay");
       unlockRelay();
       tagId = content;
-      stateNode = 3;
       break;
     case 3://send data and goes to the verify that tag is pluged
       Serial.println("measureAndPrintData");
@@ -184,21 +225,23 @@ void loop() {
       calculatePower();
       sendData();
       stateNode = 4;
+      pingRelay();
       break;
     case 4://verify if it dont pass 10 seconds since last time the card has been detected
       if(i == 0){
               Serial.println("First time in state 4");
               i = 1; //signals that we have passed the atuthentication
               lastTime = micros();
+              stateNode = 3; //go to state measure data
       }else{
 
-        if( (micros()-lastTime) > 5000000){
+        if( (micros()-lastTime) > 2000000){
           Serial.println("More than sec has passed...we need to end");
           //this means that more than 10sec has passed since last time we see a valid rfid so we go to state end
           stateNode = 5;
         }else{
           //this means that we are good so we measure more
-          stateNode = 4;
+          stateNode = 3;//go to state measure data
           //check if the rfid is present if yes update lastTime saw
           if (mfrc522.PICC_IsNewCardPresent()){
             if (mfrc522.PICC_ReadCardSerial()){

@@ -20,8 +20,8 @@
           <file leaf-file-name="home.html" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/dashboard/templates/home.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="340">
-                  <caret line="25" column="22" lean-forward="true" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
+                <state relative-caret-position="523">
+                  <caret line="49" column="14" lean-forward="true" selection-start-line="47" selection-start-column="7" selection-end-line="49" selection-end-column="14" />
                   <folding>
                     <element signature="e#357#388#0#HTML" expanded="true" />
                     <element signature="e#902#933#0#HTML" expanded="true" />
@@ -81,11 +81,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="device.html" pinned="false" current-in-tab="false">
+          <file leaf-file-name="device.html" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/dashboard/templates/device.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="337">
-                  <caret line="79" column="20" lean-forward="true" selection-start-line="79" selection-start-column="20" selection-end-line="79" selection-end-column="20" />
+                <state relative-caret-position="477">
+                  <caret line="92" column="30" lean-forward="false" selection-start-line="92" selection-start-column="30" selection-end-line="92" selection-end-column="30" />
                   <folding />
                 </state>
               </provider>
@@ -121,7 +121,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/dashboard/models.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="240">
@@ -270,8 +270,8 @@
         <option value="$PROJECT_DIR$/dashboard/templates/sessions.html" />
         <option value="$PROJECT_DIR$/dashboard/models.py" />
         <option value="$PROJECT_DIR$/dashboard/urls.py" />
-        <option value="$PROJECT_DIR$/dashboard/templates/device.html" />
         <option value="$PROJECT_DIR$/dashboard/views.py" />
+        <option value="$PROJECT_DIR$/dashboard/templates/device.html" />
       </list>
     </option>
   </component>
@@ -898,17 +898,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dashboard/templates/home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="25" column="22" lean-forward="true" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
-          <folding>
-            <element signature="e#357#388#0#HTML" expanded="true" />
-            <element signature="e#902#933#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dashboard/templates/sessions.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1035">
@@ -953,11 +942,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dashboard/templates/device.html">
+    <entry file="file://$PROJECT_DIR$/dashboard/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="79" column="20" lean-forward="true" selection-start-line="79" selection-start-column="20" selection-end-line="79" selection-end-column="20" />
-          <folding />
+        <state relative-caret-position="449">
+          <caret line="175" column="26" lean-forward="true" selection-start-line="175" selection-start-column="26" selection-end-line="175" selection-end-column="26" />
+          <folding>
+            <element signature="e#24#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -971,13 +962,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dashboard/views.py">
+    <entry file="file://$PROJECT_DIR$/dashboard/templates/home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="175" column="26" lean-forward="true" selection-start-line="175" selection-start-column="26" selection-end-line="175" selection-end-column="26" />
+        <state relative-caret-position="523">
+          <caret line="49" column="14" lean-forward="true" selection-start-line="47" selection-start-column="7" selection-end-line="49" selection-end-column="14" />
           <folding>
-            <element signature="e#24#35#0" expanded="true" />
+            <element signature="e#357#388#0#HTML" expanded="true" />
+            <element signature="e#902#933#0#HTML" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dashboard/templates/device.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="477">
+          <caret line="92" column="30" lean-forward="false" selection-start-line="92" selection-start-column="30" selection-end-line="92" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>

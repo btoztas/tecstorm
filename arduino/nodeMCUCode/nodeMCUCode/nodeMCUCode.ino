@@ -9,9 +9,9 @@
 
 char* ssid = "Redmi";
 char* password =  "9ecd440f1d8f";
-String pluckerID = "pluckers01";
-String TagID;
+const String pluckerID = "pluckers01";
 
+String content;
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Instance of the class
 
 /*We have 7 sates: 0 iddle wait for input card
@@ -21,9 +21,9 @@ MFRC522 mfrc522(SS_PIN, RST_PIN); // Instance of the class
                    4 verify card state
                    5 end- clear variables*/
 int stateNode = 0;
-
-//variables used
-String content;
+String TagID;//variable that saves the current pluged device ID
+unsigned long int powerConsumed = 0;
+int actualCurrent = 1;
 
 //in state 0 the machine is in iddle and waits for the card
 void iddle(){
@@ -35,7 +35,7 @@ void iddle(){
       if (mfrc522.PICC_ReadCardSerial()){
         Serial.println("li cartão");
         content= "";
-        for (byte i = 0; i < mfrc522.uid.size; i++){
+        for (byte i = 0; i < mfrc522.uid.size; i++){´~
 
           content.concat(String(mfrc522.uid.uidByte[i], HEX));
         }
@@ -46,7 +46,8 @@ void iddle(){
   }
 }
 
-bool authenticationPost(){
+//function handles the authentication of validation in the server and also closes the connection in the second time it is called
+void authenticationPost(){
   if(WiFi.status() == WL_CONNECTED){
     //HTTP client
     HTTPClient http;
@@ -81,12 +82,44 @@ bool authenticationPost(){
   }
 }
 
+void measureCurrent(){
+  return;
+}
 
+void calculatePower(){
+  powerConsumed = powerConsumed + (230 * actualCurrent);
+}
 
+void sendData(){
+  if(WiFi.status() == WL_CONNECTED){
+    //HTTP client
+    HTTPClient http;
+    http.begin("http://193.136.128.103:5005/api/consume/"+pluckerID+"/"); //Specify destination for HTTP request
+    http.addHeader("Content-Type", "application/json"); //Specify content-type header
+    int httpResponseCode = http.POST("{\"value\":\"" + String(powerConsumed) + "\"}"); //Send the actual POST request
+
+    if(httpResponseCode > 0){
+      String response = http.getString();                       //Get the response to the request
+
+      Serial.println("POST Response:");   //Print return code
+      Serial.println(response);           //Print request answeer
+    }else{
+      Serial.print("Error on sending POST: ");
+      Serial.println(httpResponseCode);
+    }
+   http.end();  //Free resources
+  }else{
+    Serial.println("NO WIFI");
+  }
+}
+
+//function handles end state
 void end(){
   Serial.println("END STATE");
   tagId = "";
   stateNode = 0;
+  content = "";
+  authenticationPost();//first time called it opens session second time it closes it
 }
 
 //RELAY CODE
@@ -119,6 +152,8 @@ void setup() {
   digitalWrite(RELAY_PIN,LOW);
 }
 
+int i = 0;
+unsigned lastTime;//variable for check the lastTime we seee the card - this detects if plug not present
 void loop() {
   // put your main code here, to run repeatedly:
   switch(stateNode) {
@@ -136,9 +171,45 @@ void loop() {
       tagId = content;
       stateNode = 3;
       break;
-    case 3://send data and goes to the verify data
+    case 3://send data and goes to the verify that tag is pluged
+      measureCurrent();
+      calculatePower();
+      sendData();
+      stateNode = 4;
+      break;
+    case 4://verify if it dont pass 10 seconds since last time the card has been detected
+      if(i = 0){
+              Serial.println("First time in state 4");
+              i = 1 //signals that we have passed the atuthentication
+              lastTime = micros();
+      }else{
 
+        if( (micros()-lastTime) > 10000000){
+          Serial.println("More than 10sec has passed...we need to end");
+          //this means that more than 10sec has passed since last time we see a valid rfid so we go to state end
+          stateNode = 5;
+        }else{
+          //this means that we are good so we measure more
+          stateNode = 4;
+          //check if the rfid is present if yes update lastTime saw
+          if (mfrc522.PICC_IsNewCardPresent()){
+            if (mfrc522.PICC_ReadCardSerial()){
+              content= "";
+              for (byte i = 0; i < mfrc522.uid.size; i++){´~
 
+                content.concat(String(mfrc522.uid.uidByte[i], HEX));
+              }
+              if(content == tagID){//if tagg is the same
+                lastTime = micros();
+              }
+            }
+          }
+        }
+      }
+      break;
+    case 5://end comunitcations
+      end();
+      break;
     default : /* by default an error occurred so it ends and clear all */
       end();
   }

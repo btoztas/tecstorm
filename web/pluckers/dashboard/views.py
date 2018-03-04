@@ -162,8 +162,6 @@ class SessionApiView(View):
 
                 new_session = Session(user=user, user_tag=user_tag, pluckers=pluckers, active=True)
                 new_session.save()
-                pluckers.state = True
-                pluckers.save()
 
             return HttpResponse(
                 status=200,

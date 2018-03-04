@@ -163,9 +163,17 @@ class SessionApiView(View):
                     new_session = Session(user=user, user_tag=user_tag, pluckers=pluckers, active=True)
                     new_session.save()
 
+                return HttpResponse(
+                    status=200,
+                    content_type='application/json',
+                )
+
+            response = dict()
+            response['error'] = 'denied'
             return HttpResponse(
-                status=200,
+                json.dumps(response),
                 content_type='application/json',
+                status=401
             )
 
         response = dict()

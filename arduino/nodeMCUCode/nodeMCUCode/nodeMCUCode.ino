@@ -7,9 +7,11 @@
 #define SS_PIN 21 // Slave select pin
 #define RELAY_PIN 4// Relay pin to control the plug
 
-char* ssid = "Redmi";
-char* password =  "9ecd440f1d8f";
+//constants
+char* ssid = "MIBAR";
+char* password =  "mibar2018";
 const String pluckerID = "pluckers01";
+const String apiEndpoint = "http://193.136.128.109:5006/api/";
 
 String content;
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Instance of the class
@@ -21,7 +23,7 @@ MFRC522 mfrc522(SS_PIN, RST_PIN); // Instance of the class
                    4 verify card state
                    5 end- clear variables*/
 int stateNode = 0;
-String TagID;//variable that saves the current pluged device ID
+String tagId;//variable that saves the current pluged device ID
 unsigned long int powerConsumed = 0;
 int actualCurrent = 1;
 
@@ -35,7 +37,7 @@ void iddle(){
       if (mfrc522.PICC_ReadCardSerial()){
         Serial.println("li cartão");
         content= "";
-        for (byte i = 0; i < mfrc522.uid.size; i++){´~
+        for (byte i = 0; i < mfrc522.uid.size; i++){
 
           content.concat(String(mfrc522.uid.uidByte[i], HEX));
         }
@@ -47,19 +49,19 @@ void iddle(){
 }
 
 //function handles the authentication of validation in the server and also closes the connection in the second time it is called
-void authenticationPost(){
+void authenticationPost(String ID){
   if(WiFi.status() == WL_CONNECTED){
     //HTTP client
     HTTPClient http;
-    http.begin("http://193.136.128.103:5005/api/session/"+pluckerID+"/"); //Specify destination for HTTP request
+    http.begin(apiEndpoint+"session/"+pluckerID+"/"); //Specify destination for HTTP request
     http.addHeader("Content-Type", "application/json"); //Specify content-type header
-    int httpResponseCode = http.POST("{\"tag\":\"" + content + "\"}"); //Send the actual POST request
+    int httpResponseCode = http.POST("{\"tag\":\"" + ID + "\"}"); //Send the actual POST request
 
     if(httpResponseCode > 0){
       String response = http.getString();                       //Get the response to the request
 
-      Serial.println("POST Response:");   //Print return code
-      Serial.println(response);           //Print request answer
+      //Serial.println("POST Response:");   //Print return code
+      //Serial.println(response);           //Print request answer
 
       if(httpResponseCode == 200){
         //This means it's a valid ID
@@ -74,11 +76,13 @@ void authenticationPost(){
  
       Serial.print("Error on sending POST: ");
       Serial.println(httpResponseCode);
+      stateNode = 0;//Return to IDLE
  
     }    
    http.end();  //Free resources
   }else{
     Serial.println("NO WIFI");
+    stateNode = 0;//Return to IDLE
   }
 }
 
@@ -94,15 +98,15 @@ void sendData(){
   if(WiFi.status() == WL_CONNECTED){
     //HTTP client
     HTTPClient http;
-    http.begin("http://193.136.128.103:5005/api/consume/"+pluckerID+"/"); //Specify destination for HTTP request
+    http.begin(apiEndpoint + "consume/"+pluckerID+"/"); //Specify destination for HTTP request
     http.addHeader("Content-Type", "application/json"); //Specify content-type header
     int httpResponseCode = http.POST("{\"value\":\"" + String(powerConsumed) + "\"}"); //Send the actual POST request
 
     if(httpResponseCode > 0){
       String response = http.getString();                       //Get the response to the request
 
-      Serial.println("POST Response:");   //Print return code
-      Serial.println(response);           //Print request answeer
+      //Serial.println("POST Response:");   //Print return code
+      //Serial.println(response);           //Print request answeer
     }else{
       Serial.print("Error on sending POST: ");
       Serial.println(httpResponseCode);
@@ -119,7 +123,9 @@ void end(){
   tagId = "";
   stateNode = 0;
   content = "";
-  authenticationPost();//first time called it opens session second time it closes it
+  powerConsumed = 0;
+  lockRelay();
+  authenticationPost(tagId);//first time called it opens session second time it closes it
 }
 
 //RELAY CODE
@@ -163,29 +169,31 @@ void loop() {
       break; /* optional */
 	
     case 1://send data to autentication
-      authenticationPost();
+      authenticationPost(content);
       break; /* optional */
     
     case 2://unlock relay and save the id of the tag 
+      Serial.println("unlockRelay");
       unlockRelay();
       tagId = content;
       stateNode = 3;
       break;
     case 3://send data and goes to the verify that tag is pluged
+      Serial.println("measureAndPrintData");
       measureCurrent();
       calculatePower();
       sendData();
       stateNode = 4;
       break;
     case 4://verify if it dont pass 10 seconds since last time the card has been detected
-      if(i = 0){
+      if(i == 0){
               Serial.println("First time in state 4");
-              i = 1 //signals that we have passed the atuthentication
+              i = 1; //signals that we have passed the atuthentication
               lastTime = micros();
       }else{
 
-        if( (micros()-lastTime) > 10000000){
-          Serial.println("More than 10sec has passed...we need to end");
+        if( (micros()-lastTime) > 5000000){
+          Serial.println("More than sec has passed...we need to end");
           //this means that more than 10sec has passed since last time we see a valid rfid so we go to state end
           stateNode = 5;
         }else{
@@ -195,11 +203,11 @@ void loop() {
           if (mfrc522.PICC_IsNewCardPresent()){
             if (mfrc522.PICC_ReadCardSerial()){
               content= "";
-              for (byte i = 0; i < mfrc522.uid.size; i++){´~
+              for (byte i = 0; i < mfrc522.uid.size; i++){
 
                 content.concat(String(mfrc522.uid.uidByte[i], HEX));
               }
-              if(content == tagID){//if tagg is the same
+              if(content == tagId){//if tagg is the same
                 lastTime = micros();
               }
             }
@@ -213,6 +221,4 @@ void loop() {
     default : /* by default an error occurred so it ends and clear all */
       end();
   }
-  
-  delay(500);
 }

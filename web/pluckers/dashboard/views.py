@@ -202,15 +202,23 @@ class ConsumeApiView(View):
                 )
 
             # Check if there is an active session
+            if session:
+                new_consume = Consume(value=value, session=session)
+                new_consume.save()
 
-            new_consume = Consume(value=value, session=session)
-            new_consume.save()
 
+                return HttpResponse(
+                    status=200,
+                    content_type='application/json',
+                )
+
+            response = dict()
+            response['error'] = 'no active session'
             return HttpResponse(
-                status=200,
+                json.dumps(response),
                 content_type='application/json',
+                status=404
             )
-
         response = dict()
         response['error'] = 'bad request'
         return HttpResponse(
